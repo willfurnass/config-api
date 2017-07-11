@@ -70,4 +70,4 @@ class TraceLogger(logging.getLoggerClass()):
                 name, level, fn, lno, msg, args, exc_info, func)
 
         return logging.Logger.makeRecord(
-            self, name, level, fn, lno, msg, args, exc_info, func)
+            self, name, level, fn, lno, msg, args, exc_info, func=func, extra=extra)
