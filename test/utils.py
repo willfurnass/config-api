@@ -131,7 +131,7 @@ def needs_config(func):
     def inner(*args,**kwargs):
         try:
             create_config_manager()
-        except Exception, ex:
+        except Exception as ex:
             print(ex)
             raise SkipTest("Config manager instance could not be created.")
         return func(*args,**kwargs)

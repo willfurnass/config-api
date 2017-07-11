@@ -56,7 +56,7 @@ def test_object_already_exists():
     try:
         API.add_managers([MANAGER_NAME])
         assert(False)
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
     API.delete_managers([MANAGER_NAME])
@@ -64,7 +64,7 @@ def test_object_already_exists():
 def test_object_not_found():
     try:
         API.delete_managers([MANAGER_NAME])
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # ok
         pass
 

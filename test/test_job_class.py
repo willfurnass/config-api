@@ -39,7 +39,7 @@ def test_object_not_found():
     try:
         jc = API.get_jc('__non_existent_jc__')
         assert(False)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # ok
         pass
 
@@ -63,7 +63,7 @@ def test_object_already_exists():
     try:
         jc = API.add_jc(name=JC_NAME)
         assert(False)
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
 

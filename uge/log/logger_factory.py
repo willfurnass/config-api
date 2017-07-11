@@ -83,7 +83,7 @@ class LoggerFactory(object):
                         results[0], results[1]))
 
                 self.expressions.append(results)
-            except Exception, ex:
+            except Exception as ex:
                 self.logger.\
                     error('Parser error in log configuration file: %s' % (
                         line))

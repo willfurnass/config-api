@@ -112,7 +112,7 @@ class QconfObject(object):
             return None
         try:
             json_dict = json.loads(json_string)
-        except Exception, ex:
+        except Exception as ex:
             raise InvalidArgument('Input is not a valid json string: %s (error: %s).' % (str(json_string), ex))
         if not isinstance(json_dict, dict):
             raise InvalidArgument('Input json string does not contain dictionary: %s.' % str(json_string))

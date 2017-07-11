@@ -39,7 +39,7 @@ def test_list_shosts():
     try:
         hl = API.list_shosts()
         assert(hl is not None)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         raise SkipTest('There are no configured UGE submit hosts.')
 
 def test_object_already_exists():
@@ -51,9 +51,9 @@ def test_object_already_exists():
                 assert(False)
             else:
                 raise SkipTest('There are no configured UGE submit hosts.')
-        except ObjectNotFound, ex:
+        except ObjectNotFound as ex:
             raise SkipTest('There are no configured UGE submit hosts.')
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
 
@@ -67,6 +67,6 @@ def test_delete_and_add_shosts():
         assert(hl2.data.count(host_name) == 0)
         hl3 = API.add_shosts(host_name)
         assert(hl3.data.count(host_name) == 1)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         raise SkipTest('There are no configured UGE submit hosts.')
 

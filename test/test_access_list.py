@@ -42,7 +42,7 @@ def test_object_not_found():
     try:
         acl = API.get_acl('__non_existent_acl__')
         assert(False)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # ok
         pass
 
@@ -53,7 +53,7 @@ def test_generate_acl():
 def test_add_acl():
     try:
         acl_list = API.list_acls()
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # no acls defined
         acl_list = []
     acl = API.add_acl(name=ACL_NAME)
@@ -70,7 +70,7 @@ def test_object_already_exists():
     try:
         acl = API.add_acl(name=ACL_NAME)
         assert(False)
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
 
@@ -120,7 +120,7 @@ def test_delete_acl():
     API.delete_acl(ACL_NAME)
     try:
         acl_list2 = API.list_acls()
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # no acls defined
         acl_list2 = []
     assert(len(acl_list2) == len(acl_list) - 1)

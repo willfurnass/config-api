@@ -78,7 +78,7 @@ class ListBasedObjectManager(object):
         try:
             qconf_output = self.qconf_executor.execute_qconf('-s%s' % (self.OBJECT_CLASS_UGE_NAME), self.QCONF_ERROR_REGEX_LIST).get_stdout()
             name_list = QconfNameList(metadata={'description' : 'List of %s names' % (self.OBJECT_NAME)}, data=QconfObject.get_list_from_qconf_output(qconf_output))
-        except ObjectNotFound, ex:
+        except ObjectNotFound as ex:
             name_list = QconfNameList(metadata={'description' : 'List of %s names' % (self.OBJECT_NAME)}, data=[])
         return name_list
 

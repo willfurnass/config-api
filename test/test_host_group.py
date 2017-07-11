@@ -58,7 +58,7 @@ def test_object_already_exists():
             assert(False)
         else:
             raise SkipTest('There are no configured UGE host groups.')
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
 
@@ -66,7 +66,7 @@ def test_object_not_found():
     try:
         hgrp = API.get_hgrp('__non_existent_host_group__')
         assert(False)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # ok
         pass
 

@@ -134,9 +134,9 @@ class QconfApi(object):
             try:
                 result = func(*args, **kwargs)
                 return result
-            except QconfException, ex:
+            except QconfException as ex:
                 raise
-            except Exception, ex:
+            except Exception as ex:
                 raise QconfException(exception=ex)
         return decorator(wrapped_call, func)
 
@@ -149,9 +149,9 @@ class QconfApi(object):
                 try:
                     result = func(*args, **kwargs)
                     return result
-                except QconfException, ex:
+                except QconfException as ex:
                     raise
-                except Exception, ex:
+                except Exception as ex:
                     raise QconfException(exception=ex)
             return decorator(wrapped_call, func)
         if len(dargs) == 1 and callable(dargs[0]):

@@ -49,7 +49,7 @@ class ShareTreeManager(DictListBasedObjectManager):
     def add_stnode(self, path, shares):
         try:
             share_value = int(shares)
-        except ValueError, ex:
+        except ValueError as ex:
             raise InvalidArgument(exception=ex)
         self.qconf_executor.execute_qconf('-astnode %s=%s' % (path, shares), self.QCONF_ERROR_REGEX_LIST)
         return self.get_object()
@@ -61,7 +61,7 @@ class ShareTreeManager(DictListBasedObjectManager):
     def object_exists(self):
         try:
             self.qconf_executor.execute_qconf('-sstree', self.QCONF_ERROR_SSTREE_REGEX_LIST)
-        except ObjectNotFound, ex:
+        except ObjectNotFound as ex:
             return False
         return True
 

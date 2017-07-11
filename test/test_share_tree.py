@@ -128,7 +128,7 @@ def test_delete_stree():
     try:
         stree = API.get_stree()
         assert(False)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         pass
 
 def test_modify_or_add_stree():

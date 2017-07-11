@@ -90,7 +90,7 @@ class DictListBasedObjectManager(object):
         try:
             old_object = self.get_object()
             raise ObjectAlreadyExists('%s already exists.' % (self.OBJECT_CLASS_NAME))
-        except ObjectNotFound, ex:
+        except ObjectNotFound as ex:
             # ok
             pass
         self.verify_object_before_add(new_object)

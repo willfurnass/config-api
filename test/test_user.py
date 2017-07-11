@@ -39,7 +39,7 @@ def test_object_not_found():
     try:
         user = API.get_user('__non_existent_user__')
         assert(False)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # ok
         pass
 
@@ -50,7 +50,7 @@ def test_generate_user():
 def test_add_user():
     try:
         userl = API.list_users()
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # no users defined
         userl = []
     user = API.add_user(name=USER_NAME)
@@ -67,7 +67,7 @@ def test_object_already_exists():
     try:
         user = API.add_user(name=USER_NAME)
         assert(False)
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
 
@@ -105,7 +105,7 @@ def test_delete_user():
     API.delete_user(USER_NAME)
     try:
         userl2 = API.list_users()
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # no users defined
         userl2 = []
     assert(len(userl2) == len(userl) - 1)

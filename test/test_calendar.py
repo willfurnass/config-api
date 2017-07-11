@@ -39,7 +39,7 @@ def test_object_not_found():
     try:
         calendar = API.get_cal('__non_existent_calendar__')
         assert(False)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # ok
         pass
 
@@ -50,7 +50,7 @@ def test_generate_cal():
 def test_add_cal():
     try:
         calendar_list = API.list_cals()
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # no calendars defined
         calendar_list = []
     calendar = API.add_cal(name=CALENDAR_NAME)
@@ -67,7 +67,7 @@ def test_object_already_exists():
     try:
         calendar = API.add_cal(name=CALENDAR_NAME)
         assert(False)
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
 
@@ -98,7 +98,7 @@ def test_delete_cal():
     API.delete_cal(CALENDAR_NAME)
     try:
         calendar_list2 = API.list_cals()
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # no calendars defined
         calendar_list2 = []
     assert(len(calendar_list2) == len(calendar_list) - 1)

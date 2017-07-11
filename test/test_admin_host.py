@@ -39,7 +39,7 @@ def test_list_ahosts():
     try:
         hl = API.list_ahosts()
         assert(hl is not None)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         raise SkipTest('There are no configured UGE admin hosts.')
 
 def test_object_already_exists():
@@ -48,9 +48,9 @@ def test_object_already_exists():
             hl = API.list_ahosts()
             API.add_ahosts([hl[0]])
             assert(False)
-        except ObjectNotFound, ex:
+        except ObjectNotFound as ex:
             raise SkipTest('There are no configured UGE admin hosts.')
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
 
@@ -68,6 +68,6 @@ def test_delete_and_add_ahosts():
         assert(hl2.data.count(host_name) == 0)
         hl3 = API.add_ahosts(host_name)
         assert(hl3.data.count(host_name) == 1)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         raise SkipTest('There are no configured UGE admin hosts.')
 

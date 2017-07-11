@@ -100,7 +100,7 @@ class QconfCli(object):
 
         try:
             (self.options, self.args) = self.parser.parse_args()
-        except SystemExit, rc:
+        except SystemExit as rc:
             sys.stdout.flush()
             sys.stderr.flush()
             os._exit(int(str(rc)))
@@ -167,14 +167,14 @@ class QconfCli(object):
         """
         try:
             self.run_command()
-        except QconfException, ex:
+        except QconfException as ex:
             if self.logger.level < logging.INFO:
                 self.logger.exception('%s' % ex)
             print('%s' % ex.get_error_message())
             raise SystemExit(ex.get_error_code())
-        except SystemExit, ex:
+        except SystemExit as ex:
             raise
-        except Exception, ex:
+        except Exception as ex:
             self.logger.exception('%s' % ex)
             print('%s' % ex)
             raise SystemExit(-1)

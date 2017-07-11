@@ -53,7 +53,7 @@ def test_object_already_exists():
             assert(False)
         else:
             raise SkipTest('There are no configured UGE execution hosts.')
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
 

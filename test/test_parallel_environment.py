@@ -39,7 +39,7 @@ def test_object_not_found():
     try:
         pe = API.get_pe('__non_existent_pe__')
         assert(False)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # ok
         pass
 
@@ -50,7 +50,7 @@ def test_generate_pe():
 def test_add_pe():
     try:
         pel = API.list_pes()
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # no pes defined
         pel = []
     pe = API.add_pe(name=PE_NAME)
@@ -67,7 +67,7 @@ def test_object_already_exists():
     try:
         pe = API.add_pe(name=PE_NAME)
         assert(False)
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
 
@@ -105,7 +105,7 @@ def test_delete_pe():
     API.delete_pe(PE_NAME)
     try:
         pel2 = API.list_pes()
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # no pes defined
         pel2 = []
     assert(len(pel2) == len(pel) - 1)

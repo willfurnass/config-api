@@ -35,7 +35,7 @@ def test_object_not_found():
     try:
         rqs = API.get_rqs('__non_existent_rqs__')
         assert(False)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # ok
         pass
 
@@ -59,7 +59,7 @@ def test_object_already_exists():
     try:
         rqs = API.add_rqs(name=RQS_NAME)
         assert(False)
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
 

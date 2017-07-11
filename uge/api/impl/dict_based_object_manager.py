@@ -104,7 +104,7 @@ class DictBasedObjectManager(object):
         try:
             old_object = self.get_object(object_name)
             raise ObjectAlreadyExists('%s %s already exists.' % (self.OBJECT_CLASS_NAME, object_name))
-        except ObjectNotFound, ex:
+        except ObjectNotFound as ex:
             # ok
             pass
         new_object.remove_optional_keys()
@@ -161,7 +161,7 @@ class DictBasedObjectManager(object):
         try:
             qconf_output = self.qconf_executor.execute_qconf('-s%sl' % (self.OBJECT_CLASS_UGE_NAME), self.QCONF_ERROR_REGEX_LIST).get_stdout()
             object_list = QconfNameList(metadata={'description' : 'List of %s object names' % (self.OBJECT_CLASS_NAME)}, data=QconfObject.get_list_from_qconf_output(qconf_output))
-        except ObjectNotFound, ex:
+        except ObjectNotFound as ex:
             object_list = QconfNameList(metadata={'description' : 'List of %s object names' % (self.OBJECT_CLASS_NAME)}, data=[])
         return object_list
         

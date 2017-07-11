@@ -39,7 +39,7 @@ def test_object_not_found():
     try:
         q = API.get_queue('__non_existent__.q')
         assert(False)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # ok
         pass
 
@@ -63,7 +63,7 @@ def test_object_already_exists():
     try:
         q = API.add_queue(name=QUEUE_NAME)
         assert(False)
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
 

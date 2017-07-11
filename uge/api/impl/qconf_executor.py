@@ -83,7 +83,7 @@ class QconfExecutor(object):
                     if pattern.match(error):
                         raise qconfExClass(error, error_details=error_details)
             return p
-        except CommandFailed, ex:
+        except CommandFailed as ex:
             error = str(ex)
             if combine_error_lines:
                 error = error.replace('\n', '; ')
@@ -128,6 +128,6 @@ if __name__ == '__main__':
         p = executor.execute_qconf('-sq allq')
         print(p.get_stdout())
         print(p.get_exit_status())
-    except CommandFailed, ex:
+    except CommandFailed as ex:
         print('Exit Status: ', ex.get_command_exit_status())
         print('Std Error  : ', ex.get_command_stderr())

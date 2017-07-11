@@ -39,7 +39,7 @@ def test_object_not_found():
     try:
         pe = API.get_ckpt('__non_existent_ckpt__')
         assert(False)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # ok
         pass
 
@@ -50,7 +50,7 @@ def test_generate_ckpt():
 def test_add_ckpt():
     try:
         ckptl = API.list_ckpts()
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # no ckpts defined
         ckptl = []
     ckpt = API.add_ckpt(name=CKPT_NAME)
@@ -67,7 +67,7 @@ def test_object_already_exists():
     try:
         ckpt = API.add_ckpt(name=CKPT_NAME)
         assert(False)
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
 
@@ -98,7 +98,7 @@ def test_delete_ckpt():
     API.delete_ckpt(CKPT_NAME)
     try:
         ckptl2 = API.list_ckpts()
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # no ckpts defined
         ckptl2 = []
     assert(len(ckptl2) == len(ckptl) - 1)

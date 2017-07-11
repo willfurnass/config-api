@@ -94,7 +94,7 @@ class UgeSubprocess(subprocess.Popen):
         p = UgeSubprocess(command)
         try:
             p.run()
-        except CommandFailed, ex:
+        except CommandFailed as ex:
             p.get_logger().debug('Command failed, stdout: %s, stderr: %s' % (p.get_stdout(), p.get_stderr()))
         return p
 

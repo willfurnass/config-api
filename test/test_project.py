@@ -39,7 +39,7 @@ def test_object_not_found():
     try:
         project = API.get_prj('__non_existent_project__')
         assert(False)
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # ok
         pass
 
@@ -50,7 +50,7 @@ def test_generate_prj():
 def test_add_prj():
     try:
         project_list = API.list_prjs()
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # no projects defined
         project_list = []
     project = API.add_prj(name=PROJECT_NAME)
@@ -67,7 +67,7 @@ def test_object_already_exists():
     try:
         project = API.add_prj(name=PROJECT_NAME)
         assert(False)
-    except ObjectAlreadyExists, ex:
+    except ObjectAlreadyExists as ex:
         # ok
         pass
 
@@ -105,7 +105,7 @@ def test_delete_prj():
     API.delete_prj(PROJECT_NAME)
     try:
         project_list2 = API.list_prjs()
-    except ObjectNotFound, ex:
+    except ObjectNotFound as ex:
         # no projects defined
         project_list2 = []
     assert(len(project_list2) == len(project_list) - 1)
