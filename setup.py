@@ -34,7 +34,6 @@ setup(name = 'uge-pycl',
       author = 'Univa',
       author_email = 'info@univa.com',
       test_suite = 'test',
-      use_2to3=True,
       entry_points = {
         'console_scripts': [
             'qconf-convert=uge.cli.qconf_convert:run',
