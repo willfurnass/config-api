@@ -18,12 +18,13 @@
 ###########################################################################
 #___INFO__MARK_END__
 #
+from __future__ import absolute_import
 from __future__ import print_function
 import imp
 import json
 from uge.exceptions.qconf_exception import QconfException
 from uge.exceptions.invalid_request import InvalidRequest
-from uge_release_object_map import UGE_RELEASE_OBJECT_MAP
+from .uge_release_object_map import UGE_RELEASE_OBJECT_MAP
 
 class QconfObjectFactory(object):
 

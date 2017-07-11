@@ -18,12 +18,13 @@
 ###########################################################################
 #___INFO__MARK_END__
 #
+from __future__ import absolute_import
 import re
 from uge.exceptions.object_not_found import ObjectNotFound
 from uge.exceptions.invalid_request import InvalidRequest
 from uge.exceptions.invalid_argument import InvalidArgument
 from uge.objects.qconf_object_factory import QconfObjectFactory
-from dict_list_based_object_manager import DictListBasedObjectManager
+from .dict_list_based_object_manager import DictListBasedObjectManager
 
 class ShareTreeManager(DictListBasedObjectManager):
 

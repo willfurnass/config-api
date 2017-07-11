@@ -18,8 +18,9 @@
 ###########################################################################
 #___INFO__MARK_END__
 #
+from __future__ import absolute_import
 from six.moves import UserList
-from qconf_object import QconfObject
+from .qconf_object import QconfObject
 from uge.exceptions.invalid_argument import InvalidArgument
 
 class QconfDictList(QconfObject, UserList):

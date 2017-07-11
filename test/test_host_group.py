@@ -18,11 +18,12 @@
 ###########################################################################
 #___INFO__MARK_END__
 #
+from __future__ import absolute_import
 from nose import SkipTest
 
-from utils import needs_uge
-from utils import generate_random_string
-from utils import create_config_file
+from .utils import needs_uge
+from .utils import generate_random_string
+from .utils import create_config_file
 
 from uge.api.qconf_api import QconfApi
 from uge.config.config_manager import ConfigManager

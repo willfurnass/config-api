@@ -18,9 +18,10 @@
 ###########################################################################
 #___INFO__MARK_END__
 #
+from __future__ import absolute_import
 from __future__ import print_function
 from six.moves import UserList
-from qconf_object import QconfObject
+from .qconf_object import QconfObject
 from uge.exceptions.invalid_argument import InvalidArgument
 
 class QconfNameList(QconfObject, UserList):

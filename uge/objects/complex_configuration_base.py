@@ -18,7 +18,8 @@
 ###########################################################################
 #___INFO__MARK_END__
 #
-from qconf_object import QconfObject
+from __future__ import absolute_import
+from .qconf_object import QconfObject
 from uge.exceptions.invalid_argument import InvalidArgument
 
 class ComplexConfigurationBase(QconfObject):

@@ -1,41 +1,42 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
+from __future__ import absolute_import
 import os
 import tempfile
 import string
-from qconf_object import QconfObject
+from .qconf_object import QconfObject
 
 class ClusterConfiguration(QconfObject):
     """ This class encapsulates UGE cluster configuration object. """
 
-    #: Object version. 
+    #: Object version.
     VERSION = '1.0'
 
     #: Object name key.
     NAME_KEY = None
- 
+
     #: Object keys that must be provided by user.
     USER_PROVIDED_KEYS = []
 
-    #: Default values for required data keys for the global configuration. 
+    #: Default values for required data keys for the global configuration.
     #: Value for execd_spool_dir key will depend on $SGE_ROOT and $SGE_CELL.
     REQUIRED_GLOBAL_DATA_DEFAULTS = {
         'execd_spool_dir'            : 'SGE_ROOT/SGE_CELL/spool',
@@ -94,7 +95,7 @@ class ClusterConfiguration(QconfObject):
         'enable_lost_job_reschedule' : False,
     }
 
-    #: Default values for required data keys for the host configuration. 
+    #: Default values for required data keys for the host configuration.
     REQUIRED_HOST_DATA_DEFAULTS = {
         'mailer'                     : '/bin/mail',
         'xterm'                      : '/usr/bin/xterm',
@@ -119,13 +120,13 @@ class ClusterConfiguration(QconfObject):
         'reporting_params'   : ' ',
         'cgroups_params'     : ' ',
     }
-  
+
     UGE_CASE_SENSITIVE_KEYS = {
     }
 
     def __init__(self, name='global', data=None, metadata=None, json_string=None):
-        """ 
-        Class constructor. 
+        """
+        Class constructor.
 
         :param name: Configuration name (default: 'global').
         :type name: str
@@ -153,7 +154,7 @@ class ClusterConfiguration(QconfObject):
             if key.startswith('#'):
                 return key[1:-1] # remove comment and ending column characters
         return None
-        
+
     def get_required_data_defaults(self):
         if self.name == 'global':
             return self.REQUIRED_GLOBAL_DATA_DEFAULTS

@@ -18,9 +18,10 @@
 ###########################################################################
 #___INFO__MARK_END__
 #
+from __future__ import absolute_import
 from uge.exceptions.invalid_argument import InvalidArgument
-from qconf_dict_list import QconfDictList
-from qconf_object import QconfObject
+from .qconf_dict_list import QconfDictList
+from .qconf_object import QconfObject
 
 class ShareTree(QconfDictList):
     """ This class encapsulates UGE share tree object. """

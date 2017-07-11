@@ -1,27 +1,28 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
-from utils import needs_uge
-from utils import generate_random_string
-from utils import generate_random_string_list
-from utils import create_config_file
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
+from __future__ import absolute_import
+from .utils import needs_uge
+from .utils import generate_random_string
+from .utils import generate_random_string_list
+from .utils import create_config_file
 
 from uge.api.qconf_api import QconfApi
 from uge.config.config_manager import ConfigManager
@@ -92,7 +93,7 @@ def test_generate_acl_from_json():
 def test_modify_acl():
     acl = API.get_acl(ACL_NAME)
     acl = API.modify_acl(name=ACL_NAME, data={'entries' : [USER1_NAME, USER2_NAME]})
-    entries = acl.data['entries'] 
+    entries = acl.data['entries']
     assert(len(entries) == 2)
 
 def test_add_users_to_acl_and_delete_users_from_acl():
