@@ -25,6 +25,7 @@ import logging
 
 from .trace_logger import TraceLogger
 
+
 class LoggerFactory(object):
     def __init__(self, logger_expressions=None):
         """ Constructor...take in a list of regular expressions
@@ -44,13 +45,13 @@ class LoggerFactory(object):
     def get_level(self, name):
         """ Search through the list of expressions and find the level
             that matches a specific name.  If there isn't a match fall
-            through to the next in the heirarchy """
+            through to the next in the hierarchy """
         level = logging.NOTSET
         # Iterate in reverse as the last is most significant
         for exp in reversed(self.expressions):
             pattern, level = exp
             # If we return non None its a match
-            if not None == pattern.match(name):
+            if pattern.match(name) is not None:
                 # If we are forcing to a less severe level than the one we
                 # matched we must override the level
                 if level >= self.forced_level:

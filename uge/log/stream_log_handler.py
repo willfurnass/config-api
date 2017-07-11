@@ -23,6 +23,7 @@ from logging import StreamHandler
 
 from uge.config import config_manager
 
+
 class StreamLogHandler(StreamHandler):
     """
     Class that enables logging into a stream. It can be used for logging
@@ -44,4 +45,3 @@ class StreamLogHandler(StreamHandler):
         record.__dict__['user'] = self.user
         record.__dict__['host'] = self.host
         return StreamHandler.emit(self, record)
-

@@ -23,6 +23,7 @@ import logging
 import os
 import inspect
 
+
 class TraceLogRecord(logging.LogRecord):
     """
     Our trace log record class for overriding call stack
@@ -48,4 +49,3 @@ class TraceLogRecord(logging.LogRecord):
         frameinfo = inspect.getframeinfo(caller)
 
         return frameinfo.filename, frameinfo.lineno, frameinfo.function
-

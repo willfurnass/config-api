@@ -23,6 +23,7 @@ from logging.handlers import TimedRotatingFileHandler
 
 from uge.config import config_manager
 
+
 class TimedRotatingFileLogHandler(TimedRotatingFileHandler):
     """
     Class that enables logging into files. Log files can be rotated
@@ -46,4 +47,3 @@ class TimedRotatingFileLogHandler(TimedRotatingFileHandler):
         record.__dict__['user'] = self.user
         record.__dict__['host'] = self.host
         return TimedRotatingFileHandler.emit(self, record)
-
