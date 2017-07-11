@@ -32,9 +32,8 @@ from uge.exceptions.invalid_argument import InvalidArgument
 from optparse import OptionParser
 from optparse import OptionGroup
 
-class QconfCli(object):
+class QconfCli(object, metaclass=abc.ABCMeta):
     """ Base qconf command line interface class. """
-    __metaclass__ = abc.ABCMeta
 
     def __init__(self, valid_arg_count=0):
         """
