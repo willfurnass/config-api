@@ -18,9 +18,9 @@
 ###########################################################################
 #___INFO__MARK_END__
 #
+from __future__ import print_function
 __docformat__ = 'reStructuredText'
 
-from __future__ import print_function
 import os
 from functools import wraps
 from decorator import decorator
