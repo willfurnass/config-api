@@ -30,11 +30,11 @@ API = QconfApi()
 @needs_uge
 def test_generate_conf():
     conf = API.generate_conf(name='global')
-    assert(conf.data.has_key('max_u_jobs'))
+    assert('max_u_jobs' in conf.data)
 
 def test_get_conf():
     conf = API.get_conf()
-    assert(conf.data.has_key('max_u_jobs'))
+    assert('max_u_jobs' in conf.data)
 
 def test_generate_conf_from_json():
     conf = API.get_conf(name='global')

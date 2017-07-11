@@ -1,23 +1,23 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
 import imp
 import json
 from uge.exceptions.qconf_exception import QconfException
@@ -28,7 +28,7 @@ class QconfObjectFactory(object):
 
     @classmethod
     def __get_object_base_module_name(cls, class_name):
-        # This method relies on convention: 
+        # This method relies on convention:
         #     ResourceQuotaSet=>resource_quota_set
         base_module_name = class_name[0].lower()
         for letter in class_name[1:]:
@@ -42,12 +42,12 @@ class QconfObjectFactory(object):
     def __get_object_class_from_uge_version(cls, uge_version, class_name, base_module_name=None):
         if not uge_version:
             raise InvalidRequest('Cannot generate %s object: UGE version must be specified.' % class_name)
-        if not UGE_RELEASE_OBJECT_MAP.has_key(uge_version):
+        if uge_version not in UGE_RELEASE_OBJECT_MAP:
             raise QconfException('Unsupported UGE version: %s.' % uge_version)
         release_map = UGE_RELEASE_OBJECT_MAP.get(uge_version)
         object_version = release_map.get(class_name)
         return cls.__get_object_class_from_object_version(object_version, class_name, base_module_name)
-    
+
     @classmethod
     def __get_object_class_from_object_version(cls, object_version, class_name, base_module_name=None):
         if not object_version:
@@ -61,7 +61,7 @@ class QconfObjectFactory(object):
         module = imp.load_source('uge.objects.%s' % module_name, module_file)
         object_class = getattr(module, class_name)
         return object_class
-    
+
     @classmethod
     def __generate_object(cls, object_class, name, data, metadata, json_string, add_required_data):
         generated_object = object_class(name=name, data=data, metadata=metadata, json_string=json_string)
@@ -201,6 +201,6 @@ if __name__ == '__main__':
     print module
     print getattr(module, 'ShareTree')
     sconf = QconfObjectFactory.generate_share_tree('8.4.0')
-    print sconf 
+    print sconf
     print sconf.VERSION
 

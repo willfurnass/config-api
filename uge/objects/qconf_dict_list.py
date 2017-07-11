@@ -68,7 +68,7 @@ class QconfDictList(QconfObject, UserList):
             if not isinstance(d, dict):
                 raise InvalidArgument('List member is not a dictionary: %s.' % str(d))
             for (key,value) in self.get_required_data_defaults().items():
-                if not d.has_key(key):
+                if key not in d:
                     d[key] = value
 
     def check_user_provided_keys(self):

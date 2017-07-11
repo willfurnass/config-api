@@ -93,7 +93,7 @@ class ComplexConfigurationBase(QconfObject):
         for (uge_value, py_value) in self.UGE_PYTHON_OBJECT_MAP.items():
             if uge_value == uppercase_value:
                 return py_value
-        if uge_type and self.UGE_PYTHON_TYPE_MAP.has_key(uge_type):
+        if uge_type and uge_type in self.UGE_PYTHON_TYPE_MAP:
             py_value = self.UGE_PYTHON_TYPE_MAP[uge_type](value)
             return py_value
         return value
@@ -134,6 +134,6 @@ class ComplexConfigurationBase(QconfObject):
         if not isinstance(data, dict):
             raise InvalidArgument('Complex attribute data must be a dictionary.')
         for key in ['shortcut', 'type', 'relop', 'requestable', 'consumable', 'default', 'urgency', 'aapre'] :
-            if not data.has_key(key):
+            if key not in data:
                 raise InvalidArgument('Complex attribute data is missing the "%s" key.' % key)
 

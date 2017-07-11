@@ -78,7 +78,7 @@ class QconfObject(object):
         # Unpack and check json
         json_dict = self.unpack_input_json(json_string)
         if json_dict:
-            if json_dict.has_key('data'):
+            if 'data' in json_dict:
                 self.data = json_dict.get('data')
                 del json_dict['data']
             self.metadata = json_dict
@@ -153,7 +153,7 @@ class QconfObject(object):
 
         removed_keys = []
         for (key,value) in self.data.items():
-            if not self.get_required_data_defaults().has_key(key):
+            if key not in self.get_required_data_defaults():
                 if key not in self.USER_PROVIDED_KEYS and not key.startswith('#'):
                     removed_keys.append(key)
         for key in removed_keys:
@@ -168,7 +168,7 @@ class QconfObject(object):
         if isinstance(self.data, dict):
             raise InvalidRequest('Data object is not a dictionary: %s.' % str(self.data))
         for (key,value) in self.get_required_data_defaults().items():
-            if not self.data.has_key(key):
+            if key not in self.data:
                 if type(value) == types.StringType:
                     for env_var in ['SGE_ROOT', 'SGE_CELL']:
                         value = value.replace(env_var, os.environ[env_var])
@@ -272,7 +272,7 @@ class QconfObject(object):
         for (uge_value, py_value) in self.UGE_PYTHON_OBJECT_MAP.items():
             if uge_value == uppercase_value:
                 return py_value
-        if self.LIST_KEY_MAP.has_key(key):
+        if key in self.LIST_KEY_MAP:
             # Key is designated as list key.
             # Try to split by corresponding delimiter.
             delimiter = self.LIST_KEY_MAP.get(key)
@@ -280,17 +280,17 @@ class QconfObject(object):
                 return value.split(delimiter)
             else:
                 return [value]
-        elif self.DICT_KEY_MAP.has_key(key):
+        elif key in self.DICT_KEY_MAP:
             # Key is designated as dict key.
             # Try to split by corresponding delimiter.
             return self.parse_value_as_dict(key, value)
-        elif self.INT_KEY_MAP.has_key(key):
+        elif key in self.INT_KEY_MAP:
             try:
                 return int(value)
             except:
                 # We cannot convert this string to int
                 pass
-        elif self.FLOAT_KEY_MAP.has_key(key):
+        elif key in self.FLOAT_KEY_MAP:
             try:
                 return float(value)
             except:
@@ -303,7 +303,7 @@ class QconfObject(object):
     def py_to_uge(self, key, value):
         for (uge_value, py_value) in self.UGE_PYTHON_OBJECT_MAP.items():
             if value == py_value and type(value) == type(py_value):
-                if self.UGE_CASE_SENSITIVE_KEYS.has_key(key):
+                if key in self.UGE_CASE_SENSITIVE_KEYS:
                     return self.UGE_CASE_SENSITIVE_KEYS[key](uge_value)
                 return uge_value
         if isinstance(value, list):
