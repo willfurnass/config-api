@@ -18,6 +18,7 @@
 ###########################################################################
 #___INFO__MARK_END__
 #
+from __future__ import print_function
 import imp
 import json
 from uge.exceptions.qconf_exception import QconfException
@@ -194,13 +195,13 @@ class QconfObjectFactory(object):
 #############################################################################
 # Testing.
 if __name__ == '__main__':
-    print __file__
+    print(__file__)
     module_file = '%s/%s.py' % ('/'.join(__file__.split('/')[:-1]), 'share_tree_v1_0')
-    print module_file
+    print(module_file)
     module = imp.load_source('uge.objects.share_tree_v1_0', module_file)
-    print module
-    print getattr(module, 'ShareTree')
+    print(module)
+    print(getattr(module, 'ShareTree'))
     sconf = QconfObjectFactory.generate_share_tree('8.4.0')
-    print sconf
-    print sconf.VERSION
+    print(sconf)
+    print(sconf.VERSION)
 

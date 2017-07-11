@@ -19,6 +19,7 @@
 #___INFO__MARK_END__
 #
 
+from __future__ import print_function
 import os
 import pwd
 import socket
@@ -306,11 +307,11 @@ class ConfigManager(UserDict, object):
 # Testing
 if __name__ == '__main__':
     cm1 = ConfigManager.get_instance()
-    print 'CONFIG_FILE: ', cm1.get_config_file()
+    print('CONFIG_FILE: ', cm1.get_config_file())
     cm1.set_config_file('/tmp/xyz')
-    print 'CONFIG_FILE: ', cm1.get_config_file()
+    print('CONFIG_FILE: ', cm1.get_config_file())
     cm2 = ConfigManager()
-    print 'cm1 = cm2:', cm1 == cm2
-    print 'ROOT: ', cm1.get_root()
-    print 'CONFIG_FILE: ', cm1.get_config_file()
-    print 'CONFIG FILE SECTIONS: ', cm1.get_config_sections()
+    print('cm1 = cm2:', cm1 == cm2)
+    print('ROOT: ', cm1.get_root())
+    print('CONFIG_FILE: ', cm1.get_config_file())
+    print('CONFIG FILE SECTIONS: ', cm1.get_config_sections())

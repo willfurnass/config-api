@@ -1,25 +1,26 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
 __docformat__ = 'reStructuredText'
 
+from __future__ import print_function
 import os
 from functools import wraps
 from decorator import decorator
@@ -57,18 +58,18 @@ class QconfApi(object):
 
     logger = None
 
-    def __init__(self, sge_root=None, sge_cell=None, 
+    def __init__(self, sge_root=None, sge_cell=None,
                  sge_qmaster_port=None, sge_execd_port=None):
-        """ 
-        Class constructor. 
+        """
+        Class constructor.
 
-        :param sge_root: SGE root directory. It can be set via environment variable SGE_ROOT. 
+        :param sge_root: SGE root directory. It can be set via environment variable SGE_ROOT.
         :type sge_root: str
 
         :param sge_cell: SGE cell name. It can be set via environment variable SGE_CELL. Default cell name is 'default'.
         :type sge_cell: str
 
-        :param sge_qmaster_port: SGE Qmaster port. It can be set via environment variable SGE_QMASTER_PORT. Default port is 6444. 
+        :param sge_qmaster_port: SGE Qmaster port. It can be set via environment variable SGE_QMASTER_PORT. Default port is 6444.
         :type sge_qmaster_port: int
 
         :param sge_execd_port: SGE Execd port. It can be set via environment variable SGE_EXECD_PORT. Default port is 6445.
@@ -79,10 +80,10 @@ class QconfApi(object):
         :raises QconfException: for any other errors.
 
         >>> api = QconfApi(sge_root='/opt/uge')
-        """ 
+        """
         self.__configure(sge_root, sge_cell, sge_qmaster_port, sge_execd_port)
 
-    def __configure(self, sge_root, sge_cell, sge_qmaster_port, 
+    def __configure(self, sge_root, sge_cell, sge_qmaster_port,
                     sge_execd_port):
         self.get_logger()
         if not sge_root:
@@ -98,8 +99,8 @@ class QconfApi(object):
 
         self.logger.debug('Configuration: SGE_ROOT=%s, SGE_CELL=%s, SGE_QMASTER_PORT=%s, SGE_EXECD_PORT=%s' % (sge_root, sge_cell, sge_qmaster_port, sge_execd_port))
         self.qconf_executor = QconfExecutor(
-            sge_root=sge_root, sge_cell=sge_cell, 
-            sge_qmaster_port=sge_qmaster_port, 
+            sge_root=sge_root, sge_cell=sge_cell,
+            sge_qmaster_port=sge_qmaster_port,
             sge_execd_port=sge_qmaster_port)
         self.cluster_queue_manager = ClusterQueueManager(self.qconf_executor)
         self.execution_host_manager = ExecutionHostManager(self.qconf_executor)
@@ -169,8 +170,8 @@ class QconfApi(object):
 
     def generate_object(self, json_string, target_uge_version=None):
         """ Use specified JSON string to generate object for the target UGE version.
- 
-        :param json_string: input object's JSON string representation 
+
+        :param json_string: input object's JSON string representation
         :type json_string: str
 
         :param target_uge_version: target UGE version
@@ -187,8 +188,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_queue(self, name=None, data=None, metadata=None, 
-                       json_string=None, uge_version=None, 
+    def generate_queue(self, name=None, data=None, metadata=None,
+                       json_string=None, uge_version=None,
                        add_required_data=True):
         """ Generate UGE cluster queue object.
 
@@ -225,8 +226,8 @@ class QconfApi(object):
         1
         """
         return self.cluster_queue_manager.generate_object(
-            name=name, data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            name=name, data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -235,7 +236,7 @@ class QconfApi(object):
         """ Add UGE cluster queue. Default values for any missing required data keys will be added to queue configuration.
 
         :param pycl_object: Cluster queue object to be added.
-        :type pycl_object: ClusterQueue 
+        :type pycl_object: ClusterQueue
 
         :param name: Cluster queue name; if provided, it will override queue name in the provided cluster queue object, data dictionary, or in the json string.
         :type name: str
@@ -275,7 +276,7 @@ class QconfApi(object):
         """ Modify UGE cluster queue object.
 
         :param pycl_object: Cluster queue object to be modified.
-        :type pycl_object: ClusterQueue 
+        :type pycl_object: ClusterQueue
 
         :param name: Cluster queue name; if provided, it will override queue name in the provided cluster queue object, data dictionary, or in the json string.
         :type name: str
@@ -362,8 +363,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_pe(self, name=None, data=None, metadata=None, 
-                       json_string=None, uge_version=None, 
+    def generate_pe(self, name=None, data=None, metadata=None,
+                       json_string=None, uge_version=None,
                        add_required_data=True):
         """ Generate UGE parallel environment object.
 
@@ -400,8 +401,8 @@ class QconfApi(object):
         'min'
         """
         return self.parallel_environment_manager.generate_object(
-            name=name, data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            name=name, data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -410,7 +411,7 @@ class QconfApi(object):
         """ Add UGE parallel environment. Default values for any missing required data keys will be added to PE configuration.
 
         :param pycl_object: Parallel environment object to be added.
-        :type pycl_object: ParallelEnvironment 
+        :type pycl_object: ParallelEnvironment
 
         :param name: Parallel environment name; if provided, it will override PE name in the provided parallel environment object, data dictionary, or in the json string.
         :type name: str
@@ -448,7 +449,7 @@ class QconfApi(object):
         """ Modify UGE parallel environment object.
 
         :param pycl_object: Parallel environment object to be modified.
-        :type pycl_object: ParallelEnvironment 
+        :type pycl_object: ParallelEnvironment
 
         :param name: Parallel environment name; if provided, it will override PE name in the provided parallel environment object, data dictionary, or in the json string.
         :type name: str
@@ -537,8 +538,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_ehost(self, name=None, data=None, metadata=None, 
-                       json_string=None, uge_version=None, 
+    def generate_ehost(self, name=None, data=None, metadata=None,
+                       json_string=None, uge_version=None,
                        add_required_data=True):
         """ Generate UGE execution host object.
 
@@ -575,8 +576,8 @@ class QconfApi(object):
         None
         """
         return self.execution_host_manager.generate_object(
-            name=name, data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            name=name, data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -585,7 +586,7 @@ class QconfApi(object):
         """ Add UGE execution host. Default values for any missing required data keys will be added to host configuration.
 
         :param pycl_object: Execution host object to be added.
-        :type pycl_object: ExecutionHost 
+        :type pycl_object: ExecutionHost
 
         :param name: Execution host name; if provided, it will override host name in the provided execution host object, data dictionary, or in the json string.
         :type name: str
@@ -625,7 +626,7 @@ class QconfApi(object):
         """ Modify UGE execution host object.
 
         :param pycl_object: Execution host object to be modified.
-        :type pycl_object: ExecutionHost 
+        :type pycl_object: ExecutionHost
 
         :param name: Execution host name; if provided, it will override host name in the provided execution host object, data dictionary, or in the json string.
         :type name: str
@@ -675,7 +676,7 @@ class QconfApi(object):
         >>> host.data['complex_values']
         'slots=10'
         >>> host.data['load_values']
-        ['arch=lx-amd64', 'cpu=22.500000', 'load_avg=0.450000',...] 
+        ['arch=lx-amd64', 'cpu=22.500000', 'load_avg=0.450000',...]
         """
         return self.execution_host_manager.get_object(name)
 
@@ -717,8 +718,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_hgrp(self, name=None, data=None, metadata=None, 
-                      json_string=None, uge_version=None, 
+    def generate_hgrp(self, name=None, data=None, metadata=None,
+                      json_string=None, uge_version=None,
                       add_required_data=True):
         """ Generate UGE host group object.
 
@@ -753,8 +754,8 @@ class QconfApi(object):
         {'hostlist': None, 'group_name': '@myhosts'}
         """
         return self.host_group_manager.generate_object(
-            name=name, data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            name=name, data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -763,7 +764,7 @@ class QconfApi(object):
         """ Add UGE host group. Default values for any missing required data keys will be added to host configuration.
 
         :param pycl_object: Host group object to be added.
-        :type pycl_object: HostGroup 
+        :type pycl_object: HostGroup
 
         :param name: Host group name; if provided, it will override name in the provided host group object, data dictionary, or in the json string.
         :type name: str
@@ -779,7 +780,7 @@ class QconfApi(object):
 
         :returns: Newly added HostGroup object.
 
-        :raises InvalidArgument: if provided PYCL object is not an instance of HostGroup, or data is not a dictionary, or if json_string does not represent a valid JSON object. 
+        :raises InvalidArgument: if provided PYCL object is not an instance of HostGroup, or data is not a dictionary, or if json_string does not represent a valid JSON object.
         :raises InvalidRequest: if provided arguments do not specify host group name.
         :raises ObjectAlreadyExists: in case host group object with a given name already exists.
         :raises ObjectNotFound: in case an object contained in the host group data does not exist.
@@ -801,7 +802,7 @@ class QconfApi(object):
         """ Modify UGE host group object.
 
         :param pycl_object: Host group object to be modified.
-        :type pycl_object: HostGroup 
+        :type pycl_object: HostGroup
 
         :param name: Host group name; if provided, it will override host name in the provided host group object, data dictionary, or in the json string.
         :type name: str
@@ -1119,8 +1120,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_user(self, name=None, data=None, metadata=None, 
-                      json_string=None, uge_version=None, 
+    def generate_user(self, name=None, data=None, metadata=None,
+                      json_string=None, uge_version=None,
                       add_required_data=True):
         """ Generate UGE user object.
 
@@ -1153,8 +1154,8 @@ class QconfApi(object):
         {"data": {"oticket": 0,..., "name": "bbryce", "fshare": 0}, "object_version": "1.0", "object_class": "User"}
         """
         return self.user_manager.generate_object(
-            name=name, data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            name=name, data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -1163,7 +1164,7 @@ class QconfApi(object):
         """ Add UGE user. Default values for any missing required data keys will be added to user configuration.
 
         :param pycl_object: User object to be added.
-        :type pycl_object: User 
+        :type pycl_object: User
 
         :param name: User name; if provided, it will override user name in the provided user object, data dictionary, or in the json string.
         :type name: str
@@ -1201,7 +1202,7 @@ class QconfApi(object):
         """ Modify UGE user object.
 
         :param pycl_object: User object to be modified.
-        :type pycl_object: User 
+        :type pycl_object: User
 
         :param name: User name; if provided, it will override user name in the provided user object, data dictionary, or in the json string.
         :type name: str
@@ -1287,8 +1288,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_prj(self, name=None, data=None, metadata=None, 
-                     json_string=None, uge_version=None, 
+    def generate_prj(self, name=None, data=None, metadata=None,
+                     json_string=None, uge_version=None,
                      add_required_data=True):
         """ Generate UGE project object.
 
@@ -1321,8 +1322,8 @@ class QconfApi(object):
         {"data": {"oticket": 0,..., "name": "project1", "fshare": 0}, "object_version": "1.0", "object_class": "Project"}
         """
         return self.project_manager.generate_object(
-            name=name, data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            name=name, data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -1331,7 +1332,7 @@ class QconfApi(object):
         """ Add UGE project. Default values for any missing required data keys will be added to project configuration.
 
         :param pycl_object: Project object to be added.
-        :type pycl_object: Project 
+        :type pycl_object: Project
 
         :param name: Project name; if provided, it will override project name in the provided project object, data dictionary, or in the json string.
         :type name: str
@@ -1369,7 +1370,7 @@ class QconfApi(object):
         """ Modify UGE project object.
 
         :param pycl_object: Project object to be modified.
-        :type pycl_object: Project 
+        :type pycl_object: Project
 
         :param name: Project name; if provided, it will override project name in the provided project object, data dictionary, or in the json string.
         :type name: str
@@ -1455,8 +1456,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_cal(self, name=None, data=None, metadata=None, 
-                     json_string=None, uge_version=None, 
+    def generate_cal(self, name=None, data=None, metadata=None,
+                     json_string=None, uge_version=None,
                      add_required_data=True):
         """ Generate UGE calendar object.
 
@@ -1489,8 +1490,8 @@ class QconfApi(object):
         {"data": {"week": null, "calendar_name": "calendar1", "year": null}, "object_version": "1.0", "object_class": "Calendar"}
         """
         return self.calendar_manager.generate_object(
-            name=name, data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            name=name, data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -1499,7 +1500,7 @@ class QconfApi(object):
         """ Add UGE calendar. Default values for any missing required data keys will be added to calendar configuration.
 
         :param pycl_object: Calendar object to be added.
-        :type pycl_object: Calendar 
+        :type pycl_object: Calendar
 
         :param name: Calendar name; if provided, it will override calendar name in the provided calendar object, data dictionary, or in the json string.
         :type name: str
@@ -1537,7 +1538,7 @@ class QconfApi(object):
         """ Modify UGE calendar object.
 
         :param pycl_object: Calendar object to be modified.
-        :type pycl_object: Calendar 
+        :type pycl_object: Calendar
 
         :param name: Calendar name; if provided, it will override calendar name in the provided calendar object, data dictionary, or in the json string.
         :type name: str
@@ -1623,8 +1624,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_ckpt(self, name=None, data=None, metadata=None, 
-                       json_string=None, uge_version=None, 
+    def generate_ckpt(self, name=None, data=None, metadata=None,
+                       json_string=None, uge_version=None,
                        add_required_data=True):
         """ Generate UGE checkpointing environment object.
 
@@ -1659,8 +1660,8 @@ class QconfApi(object):
         'sx'
         """
         return self.checkpointing_environment_manager.generate_object(
-            name=name, data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            name=name, data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -1669,7 +1670,7 @@ class QconfApi(object):
         """ Add UGE checkpointing environment. Default values for any missing required data keys will be added to the environment configuration.
 
         :param pycl_object: Checkpointing environment object to be added.
-        :type pycl_object: CheckpointingEnvironment 
+        :type pycl_object: CheckpointingEnvironment
 
         :param name: Checkpointing environment name; if provided, it will override environment name in the provided checkpointing environment object, data dictionary, or in the json string.
         :type name: str
@@ -1707,7 +1708,7 @@ class QconfApi(object):
         """ Modify UGE checkpointing environment object.
 
         :param pycl_object: Checkpointing environment object to be modified.
-        :type pycl_object: CheckpointingEnvironment 
+        :type pycl_object: CheckpointingEnvironment
 
         :param name: Checkpointing environment name; if provided, it will override environment name in the provided checkpointing environment object, data dictionary, or in the json string.
         :type name: str
@@ -1796,8 +1797,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_acl(self, name=None, data=None, metadata=None, 
-                     json_string=None, uge_version=None, 
+    def generate_acl(self, name=None, data=None, metadata=None,
+                     json_string=None, uge_version=None,
                      add_required_data=True):
         """ Generate UGE access list object.
 
@@ -1832,8 +1833,8 @@ class QconfApi(object):
         'ACL'
         """
         return self.access_list_manager.generate_object(
-            name=name, data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            name=name, data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -1842,7 +1843,7 @@ class QconfApi(object):
         """ Add UGE access list. Default values for any missing required data keys will be added to the ACL configuration.
 
         :param pycl_object: Access list object to be added.
-        :type pycl_object: AccessList 
+        :type pycl_object: AccessList
 
         :param name: Access list name; if provided, it will override ACL name in the provided access list object, data dictionary, or in the json string.
         :type name: str
@@ -1880,7 +1881,7 @@ class QconfApi(object):
         """ Modify UGE access list object.
 
         :param pycl_object: Access list object to be modified.
-        :type pycl_object: AccessList 
+        :type pycl_object: AccessList
 
         :param name: Access list name; if provided, it will override ACL name in the provided access list object, data dictionary, or in the json string.
         :type name: str
@@ -2008,8 +2009,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_sconf(self, data=None, metadata=None, 
-                       json_string=None, uge_version=None, 
+    def generate_sconf(self, data=None, metadata=None,
+                       json_string=None, uge_version=None,
                        add_required_data=True):
         """ Generate UGE scheduler configuration object.
 
@@ -2039,8 +2040,8 @@ class QconfApi(object):
         'load'
         """
         return self.scheduler_configuration_manager.generate_object(
-            data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -2049,7 +2050,7 @@ class QconfApi(object):
         """ Modify UGE scheduler configuration object.
 
         :param pycl_object: Scheduler configuration object to be modified.
-        :type pycl_object: SchedulerConfiguration 
+        :type pycl_object: SchedulerConfiguration
 
         :param data: Scheduler configuration data dictionary; if provided, dictionary values will override corresponding values from the scheduler configuration object, or from the json string.
         :type data: dict
@@ -2100,8 +2101,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_jc(self, name=None, data=None, metadata=None, 
-                   json_string=None, uge_version=None, 
+    def generate_jc(self, name=None, data=None, metadata=None,
+                   json_string=None, uge_version=None,
                    add_required_data=True):
         """ Generate UGE job class object.
 
@@ -2134,8 +2135,8 @@ class QconfApi(object):
         {'ac': '{+}UNSPECIFIED', 'c_occasion': '{+}UNSPECIFIED',...}
         """
         return self.job_class_manager.generate_object(
-            name=name, data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            name=name, data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -2144,7 +2145,7 @@ class QconfApi(object):
         """ Add UGE job class. Default values for any missing required data keys will be added to the job class configuration.
 
         :param pycl_object: Job class object to be added.
-        :type pycl_object: JobClass 
+        :type pycl_object: JobClass
 
         :param name: Job class name; if provided, it will override job class name in the provided job class object, data dictionary, or in the json string.
         :type name: str
@@ -2170,7 +2171,7 @@ class QconfApi(object):
 
         >>> jc = api.add_jc(name='jc2', data = {'user_lists' : 'acl1,acl2'})
         >>> print jc.data
-        {'ac': '{+}UNSPECIFIED', 'c_occasion': '{+}UNSPECIFIED',...} 
+        {'ac': '{+}UNSPECIFIED', 'c_occasion': '{+}UNSPECIFIED',...}
         >>> print jc.data['user_lists']
         ['acl1', 'acl2']
         """
@@ -2184,7 +2185,7 @@ class QconfApi(object):
         """ Modify UGE job class object.
 
         :param pycl_object: Job class object to be modified.
-        :type pycl_object: JobClass 
+        :type pycl_object: JobClass
 
         :param name: Job class name; if provided, it will override job class name in the provided job class object, data dictionary, or in the json string.
         :type name: str
@@ -2208,11 +2209,11 @@ class QconfApi(object):
         :raises QconfException: for any other errors.
 
         >>> jc = api.get_jc('jc2')
-        >>> jc.data['user_lists' ] 
+        >>> jc.data['user_lists' ]
         ['acl1', 'acl2']
         >>> jc.data['user_lists' ] = 'acl1'
         >>> jc = api.modify_jc(pycl_object=jc)
-        >>> jc.data['user_lists' ] 
+        >>> jc.data['user_lists' ]
         ['acl1']
         """
         return self.job_class_manager.modify_object(
@@ -2273,12 +2274,12 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_conf(self, name=None, data=None, metadata=None, 
-                      json_string=None, uge_version=None, 
+    def generate_conf(self, name=None, data=None, metadata=None,
+                      json_string=None, uge_version=None,
                       add_required_data=True):
         """ Generate UGE cluster configuration object.
 
-        :param name: Cluster configuration name (must be either 'global' or valid host name); if provided, it will override configuration name in the data dictionary, or in the json string. 
+        :param name: Cluster configuration name (must be either 'global' or valid host name); if provided, it will override configuration name in the data dictionary, or in the json string.
         :type name: str
 
         :param data: Cluster configuration data dictionary; if provided, dictionary values will override corresponding values from the json string.
@@ -2309,8 +2310,8 @@ class QconfApi(object):
         {'mailer': '/bin/mail', 'xterm': '/usr/bin/xterm'}
         """
         return self.cluster_configuration_manager.generate_object(
-            name=name, data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            name=name, data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -2319,7 +2320,7 @@ class QconfApi(object):
         """ Add UGE cluster configuration object. Default values for any missing required data keys will be added to the configuration configuration.
 
         :param pycl_object: Cluster configuration object to be added.
-        :type pycl_object: ClusterConfiguration 
+        :type pycl_object: ClusterConfiguration
 
         :param name: Cluster configuration name (must be valid host name); if provided, it will override configuration name in the provided cluster configuration object, data dictionary, or in the json string.
         :type name: str
@@ -2358,7 +2359,7 @@ class QconfApi(object):
         """ Modify UGE cluster configuration object.
 
         :param pycl_object: Cluster configuration object to be modified.
-        :type pycl_object: ClusterConfiguration 
+        :type pycl_object: ClusterConfiguration
 
         :param name: Cluster configuration name (must be either 'global' or valid host name); if provided, it will override configuration name in the provided cluster configuration object, data dictionary, or in the json string.
         :type name: str
@@ -2449,8 +2450,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_cconf(self, data=None, metadata=None, 
-                       json_string=None, uge_version=None, 
+    def generate_cconf(self, data=None, metadata=None,
+                       json_string=None, uge_version=None,
                        add_required_data=True):
         """ Generate UGE complex configuration object.
 
@@ -2480,8 +2481,8 @@ class QconfApi(object):
         {'requestable': True,..., 'urgency': 1000, 'consumable': True, 'type': 'INT', 'shortcut': 's'}
         """
         return self.complex_configuration_manager.generate_object(
-            data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -2490,7 +2491,7 @@ class QconfApi(object):
         """ Modify UGE complex configuration object.
 
         :param pycl_object: Complex configuration object to be modified.
-        :type pycl_object: ComplexConfiguration 
+        :type pycl_object: ComplexConfiguration
 
         :param data: Complex configuration data dictionary; if provided, dictionary values will override corresponding values from the complex configuration object, or from the json string.
         :type data: dict
@@ -2610,8 +2611,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_rqs(self, name=None, data=None, metadata=None, 
-                     json_string=None, uge_version=None, 
+    def generate_rqs(self, name=None, data=None, metadata=None,
+                     json_string=None, uge_version=None,
                      add_required_data=True):
         """ Generate UGE resource quota set object.
 
@@ -2644,8 +2645,8 @@ class QconfApi(object):
         {'enabled': False, 'limit': ['to slots=0'], 'name': 'rqs1', 'description': None}
         """
         return self.resource_quota_set_manager.generate_object(
-            name=name, data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            name=name, data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -2654,7 +2655,7 @@ class QconfApi(object):
         """ Add UGE resource quota set. Default values for any missing required data keys will be added to the resource quota set configuration.
 
         :param pycl_object: Resource quota set object to be added.
-        :type pycl_object: ResourceQuotaSet 
+        :type pycl_object: ResourceQuotaSet
 
         :param name: Resource quota set name; if provided, it will override resource quota set name in the provided resource quota set object, data dictionary, or in the json string.
         :type name: str
@@ -2692,7 +2693,7 @@ class QconfApi(object):
         """ Modify UGE resource quota set object.
 
         :param pycl_object: Resource quota set object to be modified.
-        :type pycl_object: ResourceQuotaSet 
+        :type pycl_object: ResourceQuotaSet
 
         :param name: Resource quota set name; if provided, it will override resource quota set name in the provided resource quota set object, data dictionary, or in the json string.
         :type name: str
@@ -2716,7 +2717,7 @@ class QconfApi(object):
         :raises QconfException: for any other errors.
 
         >>> rqs = api.get_rqs('rqs1')
-        >>> print rqs.data['enabled'] 
+        >>> print rqs.data['enabled']
         False
         >>> rqs.data['enabled'] = True
         >>> rqs = api.modify_rqs(pycl_object=rqs)
@@ -2781,8 +2782,8 @@ class QconfApi(object):
     #
 
     @api_call
-    def generate_stree(self, data=None, metadata=None, 
-                       json_string=None, uge_version=None, 
+    def generate_stree(self, data=None, metadata=None,
+                       json_string=None, uge_version=None,
                        add_required_data=True):
         """ Generate UGE share tree object.
 
@@ -2818,8 +2819,8 @@ class QconfApi(object):
         childnodes=NONE
         """
         return self.share_tree_manager.generate_object(
-            data=data, metadata=metadata, 
-            json_string=json_string, uge_version=uge_version, 
+            data=data, metadata=metadata,
+            json_string=json_string, uge_version=uge_version,
             add_required_data=add_required_data)
 
     @api_call
@@ -2828,7 +2829,7 @@ class QconfApi(object):
         """ Add UGE share tree object.
 
         :param pycl_object: Share tree object to be added.
-        :type pycl_object: ShareTree 
+        :type pycl_object: ShareTree
 
         :param data: Share tree data; if provided, list will override json string.
         :type data: list
@@ -2848,8 +2849,8 @@ class QconfApi(object):
         :raises QconfException: for any other errors.
 
         >>> stree = api.add_stree(data=[
-        ... {'id' : 0, 'name' : 'Root', 'type' : 0, 'shares' : 1, 'childnodes' : '1,2'}, 
-        ... {'id' : 1, 'name' : 'P1', 'shares' : 70}, 
+        ... {'id' : 0, 'name' : 'Root', 'type' : 0, 'shares' : 1, 'childnodes' : '1,2'},
+        ... {'id' : 1, 'name' : 'P1', 'shares' : 70},
         ... {'id' : 2, 'name' : 'P2', 'shares' : 30}])
         >>> print stree.data[1]['shares']
         70
@@ -2864,7 +2865,7 @@ class QconfApi(object):
         """ Modify UGE share tree object.
 
         :param pycl_object: Share tree object to be modified.
-        :type pycl_object: ShareTree 
+        :type pycl_object: ShareTree
 
         :param data: Share tree data; if provided, list will override json string.
         :type data: list
@@ -2888,7 +2889,7 @@ class QconfApi(object):
         {'childnodes': None, 'type': 1, 'id': 1, 'shares': 70, 'name': 'P1'}
         >>> print stree.data[2]
         {'childnodes': None, 'type': 1, 'id': 2, 'shares': 30, 'name': 'P2'}
-        >>> stree.data[1]['shares'] = 80 
+        >>> stree.data[1]['shares'] = 80
         >>> stree.data[2]['shares'] = 20;
         >>> stree = api.modify_stree(stree)
         >>> print stree.data[1]
@@ -2906,7 +2907,7 @@ class QconfApi(object):
         """ Modify UGE share tree object, or add it if it does not exist.
 
         :param pycl_object: Share tree object to be modified.
-        :type pycl_object: ShareTree 
+        :type pycl_object: ShareTree
 
         :param data: Share tree data; if provided, list will override json string.
         :type data: list
@@ -2929,8 +2930,8 @@ class QconfApi(object):
         >>> print stree.data
         []
         >>> stree = api.modify_or_add_stree(data=[
-        ... {'id' : 0, 'name' : 'Root', 'type' : 0, 'shares' : 1, 'childnodes' : '1,2'}, 
-        ... {'id' : 1, 'name' : 'P1', 'shares' : 70}, 
+        ... {'id' : 0, 'name' : 'Root', 'type' : 0, 'shares' : 1, 'childnodes' : '1,2'},
+        ... {'id' : 1, 'name' : 'P1', 'shares' : 70},
         ... {'id' : 2, 'name' : 'P2', 'shares' : 30}])
         >>> print stree.data[2]
         {'childnodes': None, 'type': 1, 'id': 2, 'shares': 20, 'name': 'P2'}
@@ -3043,15 +3044,15 @@ if __name__ == '__main__':
     #api = QconfApi(sge_root='/opt/uge-8.3.1p9')
     api = QconfApi()
     new_q = api.generate_queue('new.q')
-    print new_q.to_json()
+    print(new_q.to_json())
     #all_q = api.get_queue('all.q2')
     all_q = api.get_queue('all.q')
-    print all_q.to_json()
-    print
-    print api.modify_queue(name='all2.q', data={'load_thresholds' : 'np_load_avg=1.65'}).to_json()
+    print(all_q.to_json())
+    print()
+    print(api.modify_queue(name='all2.q', data={'load_thresholds' : 'np_load_avg=1.65'}).to_json())
     #api.delete_queue('all2.q')
     queue_list = api.list_queues()
-    print 'QUEUE LIST: ', queue_list
-    print 'QUEUE LIST JSON: ', queue_list.to_json()
+    print('QUEUE LIST: ', queue_list)
+    print('QUEUE LIST JSON: ', queue_list.to_json())
 
 

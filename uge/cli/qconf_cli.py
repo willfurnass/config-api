@@ -1,23 +1,24 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
+from __future__ import print_function
 import sys
 import os
 import gettext
@@ -34,9 +35,9 @@ from optparse import OptionGroup
 class QconfCli(object):
     """ Base qconf command line interface class. """
     __metaclass__ = abc.ABCMeta
-    
+
     def __init__(self, valid_arg_count=0):
-        """ 
+        """
         Class constructor.
 
         :param valid_arg_count: Number of allowed positional arguments (default: 0).
@@ -60,8 +61,8 @@ class QconfCli(object):
         self.add_option_to_group(common_group, '-d', '--debug', dest='console_log_level', help='Set debug level; valid values are: critical, error, warning, info, debug')
 
     def add_option(self, *args, **kwargs):
-        """ 
-        Add CLI option. 
+        """
+        Add CLI option.
         """
         self.parser.add_option(*args, **kwargs)
 
@@ -77,8 +78,8 @@ class QconfCli(object):
         group.add_option(*args, **kwargs)
 
     def add_option_group(self, group_name, desc):
-        """ 
-        Add option group. 
+        """
+        Add option group.
 
         :param group_name: Group name.
         :type group_name: str
@@ -88,13 +89,13 @@ class QconfCli(object):
         self.option_group_dict[group_name] = group
 
     def parse_args(self, usage=None):
-        """ 
-        Parse command arguments. 
+        """
+        Parse command arguments.
 
         :param usage: Command usage.
         :type usage: str
         """
-        if usage: 
+        if usage:
             self.parser.usage = usage
 
         try:
@@ -113,7 +114,7 @@ class QconfCli(object):
 
         opt_dict = self.options.__dict__
         if opt_dict.get('cmd_version'):
-            print '%s version: %s' % (os.path.basename(sys.argv[0]), ConfigManager.get_instance().get_version())
+            print('%s version: %s' % (os.path.basename(sys.argv[0]), ConfigManager.get_instance().get_version()))
             os._exit(0)
 
         # Log level.
@@ -128,7 +129,7 @@ class QconfCli(object):
     def usage(self, s = None):
         """ Print the help provided by optparse. """
 
-        if s: print >>sys.stderr, 'Error:', s, '\n'
+        if s: print('Error:', s, '\n', file=sys.stderr)
         self.parser.print_help()
         os._exit(1)
 
@@ -154,7 +155,7 @@ class QconfCli(object):
         pass
 
     def check_input_args(self):
-        """ 
+        """
         This method should verify required arguments in the derived class.
         """
         pass
@@ -169,13 +170,13 @@ class QconfCli(object):
         except QconfException, ex:
             if self.logger.level < logging.INFO:
                 self.logger.exception('%s' % ex)
-            print '%s' % ex.get_error_message()
+            print('%s' % ex.get_error_message())
             raise SystemExit(ex.get_error_code())
         except SystemExit, ex:
             raise
         except Exception, ex:
             self.logger.exception('%s' % ex)
-            print '%s' % ex
+            print('%s' % ex)
             raise SystemExit(-1)
 
 #############################################################################
@@ -188,31 +189,31 @@ if __name__ == '__main__':
                    action="store_false", dest="verbose", default=True,
                    help="don't print status messages to stdout")
     (options, args) = cli.parse_args()
-    print 'OPTIONS: ', options
-    print 'ARGS: ', args
+    print('OPTIONS: ', options)
+    print('ARGS: ', args)
 
-    print 'OPTIONS: ', cli.get_options()
-    print 'ARGS: ', cli.get_args()
-    print 'options.filename', options.filename
-    print 'cli.getOptions().filename', cli.get_options().filename
+    print('OPTIONS: ', cli.get_options())
+    print('ARGS: ', cli.get_args())
+    print('options.filename', options.filename)
+    print('cli.getOptions().filename', cli.get_options().filename)
     o = cli.get_options()
-    print 'o.filename', o.filename
+    print('o.filename', o.filename)
 
-    print 'cli.get_args()', cli.get_args()
-    print 'len(cli.get_args())', len(cli.get_args())
+    print('cli.get_args()', cli.get_args())
+    print('len(cli.get_args())', len(cli.get_args()))
 
     for a in cli.get_args():
-        print 'arg', a
+        print('arg', a)
 
     first_arg = cli.get_arg(0)
-    print 'first_arg', first_arg
+    print('first_arg', first_arg)
 
     second_arg = cli.get_arg(1)
-    print 'second_arg', second_arg
+    print('second_arg', second_arg)
 
     try:
         third_arg = cli.get_arg(2)
-        print 'third_arg', third_arg
+        print('third_arg', third_arg)
     except:
-        print 'no third arg'
+        print('no third arg')
 

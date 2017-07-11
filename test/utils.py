@@ -18,6 +18,7 @@
 ###########################################################################
 #___INFO__MARK_END__
 #
+from __future__ import print_function
 import string
 import random
 import os
@@ -131,7 +132,7 @@ def needs_config(func):
         try:
             create_config_manager()
         except Exception, ex:
-            print ex
+            print(ex)
             raise SkipTest("Config manager instance could not be created.")
         return func(*args,**kwargs)
     return make_decorator(func)(inner)

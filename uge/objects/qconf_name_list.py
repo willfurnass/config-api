@@ -18,6 +18,7 @@
 ###########################################################################
 #___INFO__MARK_END__
 #
+from __future__ import print_function
 from six.moves import UserList
 from qconf_object import QconfObject
 from uge.exceptions.invalid_argument import InvalidArgument
@@ -60,12 +61,12 @@ class QconfNameList(QconfObject, UserList):
 # Testing.
 if __name__ == '__main__':
     name_list = QconfNameList(data=['xyz', 'abc'])
-    print name_list.__class__.__name__
+    print(name_list.__class__.__name__)
     name_list.append('admin1')
     name_list.append('admin2')
-    print name_list
+    print(name_list)
     for n in name_list:
-        print 'NAME: ', n
+        print('NAME: ', n)
 
 
 

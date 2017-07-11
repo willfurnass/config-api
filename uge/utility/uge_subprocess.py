@@ -1,23 +1,24 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
+from __future__ import print_function
 import os
 import subprocess
 
@@ -61,7 +62,7 @@ class UgeSubprocess(subprocess.Popen):
             self.logger.debug('StdOut: %s' % self.stdout_)
             self.logger.debug('StdErr: %s' % self.stderr_)
             raise CommandFailed(str(self.stderr_), self.stdout_, self.stderr_, self.returncode)
-        return (self.stdout_, self.stderr_) 
+        return (self.stdout_, self.stderr_)
 
     def get_logger(self):
         return self.logger
@@ -87,8 +88,8 @@ class UgeSubprocess(subprocess.Popen):
 
     @classmethod
     def execute_and_ignore_failure(cls, command):
-        """ 
-        Create subprocess, run it, ignore failures, return subprocess object. 
+        """
+        Create subprocess, run it, ignore failures, return subprocess object.
         """
         p = UgeSubprocess(command)
         try:
@@ -108,7 +109,7 @@ class UgeSubprocess(subprocess.Popen):
             outp = p.stdout.readline()
             if not outp:
                 break
-            print outp,
+            print(outp, end=' ')
         retval = p.wait()
 
         p.logger.debug('Exit status: %s' % retval)
@@ -128,7 +129,7 @@ class UgeSubprocess(subprocess.Popen):
 # Testing.
 if __name__ == '__main__':
     p = UgeSubprocess('ls -l', use_exceptions=False)
-    print p.run()
-    print p.get_stdout()
-    print p.get_stderr()
-    print p.get_exit_status()
+    print(p.run())
+    print(p.get_stdout())
+    print(p.get_stderr())
+    print(p.get_exit_status())

@@ -1,23 +1,24 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
+from __future__ import print_function
 import re
 import os
 import tempfile
@@ -59,7 +60,7 @@ class QconfExecutor(object):
         self.logger.trace('Retrieving UGE version')
         uge_version = self.get_uge_version()
         self.logger.debug('UGE version: %s' % uge_version)
- 
+
     def get_uge_version(self):
         if not self.uge_version:
             p = self.execute_qconf('-help')
@@ -94,7 +95,7 @@ class QconfExecutor(object):
             for (pattern,qconfExClass) in error_regex_list+QconfExecutor.QCONF_ERROR_REGEX_LIST:
                 if pattern.match(error):
                     raise qconfExClass(error, error_details=error_details)
-            raise 
+            raise
 
     def execute_qconf_with_object(self, cmd, qconf_object, error_regex_list=[]):
         try:
@@ -115,18 +116,18 @@ class QconfExecutor(object):
                 os.remove(tmp_file_path)
             if tmp_dir_path is not None:
                 os.rmdir(tmp_dir_path)
-            
+
 #############################################################################
 # Testing.
 if __name__ == '__main__':
     from uge.exceptions.command_failed import CommandFailed
     executor = QconfExecutor(sge_root='/opt/uge-8.1.7p5')
     try:
-        print 'Version: ', executor.get_uge_version()
+        print('Version: ', executor.get_uge_version())
 
         p = executor.execute_qconf('-sq allq')
-        print p.get_stdout()
-        print p.get_exit_status()
+        print(p.get_stdout())
+        print(p.get_exit_status())
     except CommandFailed, ex:
-        print 'Exit Status: ', ex.get_command_exit_status()
-        print 'Std Error  : ', ex.get_command_stderr()
+        print('Exit Status: ', ex.get_command_exit_status())
+        print('Std Error  : ', ex.get_command_stderr())
