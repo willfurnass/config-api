@@ -1,30 +1,30 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
 
 import os
 import pwd
 import socket
 
-import UserDict
-import ConfigParser
+from six.moves import UserDict
+from six.moves import configparser
 
 # Defaults.
 DEFAULT_UGE_ROOT = '/opt/uge'
@@ -41,7 +41,7 @@ DEFAULT_UGE_LOG_RECORD_FORMAT = \
 DEFAULT_UGE_LOG_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 
-class ConfigManager(UserDict.UserDict, object):
+class ConfigManager(UserDict, object):
     """
     Singleton class used for keeping system configuration data. The class
     initializes its data using predefined defaults, or from the following
@@ -81,7 +81,7 @@ class ConfigManager(UserDict.UserDict, object):
         # Only initialize once.
         if ConfigManager.__instance is not None:
             return
-        UserDict.UserDict.__init__(self)
+        UserDict.__init__(self)
         self.config_parser = None
         self['defaultRoot'] = DEFAULT_UGE_ROOT
         self['defaultConfigFile'] = DEFAULT_UGE_CONFIG_FILE
@@ -150,7 +150,7 @@ class ConfigManager(UserDict.UserDict, object):
         """ Return config parser, or none if config file cannot be found. """
         if self.config_parser is None:
             config_file = self.get_config_file()
-            self.config_parser = ConfigParser.ConfigParser(defaults)
+            self.config_parser = configparser.ConfigParser(defaults)
             if os.path.exists(config_file):
                 self.config_parser.read(config_file)
         if self.config_parser is not None:
@@ -269,7 +269,7 @@ class ConfigManager(UserDict.UserDict, object):
         if self.has_config_section(config_section):
             try:
                 return config_parser.get(config_section, key, True)
-            except ConfigParser.NoOptionError, ex:
+            except configparser.NoOptionError, ex:
                 # ok, return default
                 pass
         return default_value
