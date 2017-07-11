@@ -18,11 +18,11 @@
 ###########################################################################
 #___INFO__MARK_END__
 #
-import UserList
+from six.moves import UserList
 from qconf_object import QconfObject
 from uge.exceptions.invalid_argument import InvalidArgument
 
-class QconfNameList(QconfObject, UserList.UserList):
+class QconfNameList(QconfObject, UserList):
     """
     This class represents list of names returned by various qconf commands. It supports
     all standard python list interfaces.
@@ -46,7 +46,7 @@ class QconfNameList(QconfObject, UserList.UserList):
 
         :raises: **InvalidArgument** - in case metadata is not a dictionary, JSON string is not valid, or it does not contain dictionary representing a QconfNameList object.
         """
-        UserList.UserList.__init__(self)
+        UserList.__init__(self)
         QconfObject.__init__(self, name=name, data=data, metadata=metadata, json_string=json_string)
 
     def check_input_data(self, data):

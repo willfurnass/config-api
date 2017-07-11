@@ -1,24 +1,23 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
-import types
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
 from qconf_object import QconfObject
 from uge.exceptions.invalid_argument import InvalidArgument
 
@@ -45,8 +44,8 @@ class ComplexConfigurationBase(QconfObject):
     OPTIONAL_KEYS_ALLOWED = True
 
     def __init__(self, data=None, metadata=None, json_string=None):
-        """ 
-        Class constructor. 
+        """
+        Class constructor.
 
         :param data: Configuration data. If provided, it will override corresponding data from JSON string representation.
         :type data: dict
@@ -63,19 +62,19 @@ class ComplexConfigurationBase(QconfObject):
         QconfObject.__init__(self, data=data, metadata=metadata, json_string=json_string)
 
     def to_uge(self):
-        """ 
+        """
         Converts object to string acceptable as input for UGE qconf command.
 
         :returns: Object's UGE-formatted string.
         """
         lines = ''
-        lines += '#name               shortcut   type        relop requestable consumable default  urgency aapre\n'  
+        lines += '#name               shortcut   type        relop requestable consumable default  urgency aapre\n'
         lines += '#-----------------------------------------------------------------------------------------------\n'
         for (key, value_dict) in self.data.items():
             lines += '%s' % (key)
             for key2 in ['shortcut', 'type', 'relop', 'requestable', 'consumable', 'default', 'urgency', 'aapre']:
                 lines += ' %s' % (self.py_to_uge(key2, value_dict[key2]))
-            lines += '\n' 
+            lines += '\n'
         return lines
 
     def convert_data_to_uge_keywords(self, data):
@@ -117,14 +116,14 @@ class ComplexConfigurationBase(QconfObject):
             default = self.uge_to_py(key, key_value[6], uge_type)
             urgency = self.uge_to_py(key, key_value[7], 'INT')
             aapre = self.uge_to_py(key, key_value[8])
-            object_data[key] = { 
-                'shortcut' : shortcut, 
-                'type' : uge_type, 
-                'relop' : relop, 
-                'requestable' : requestable, 
-                'consumable' : consumable, 
-                'default' : default, 
-                'urgency' : urgency, 
+            object_data[key] = {
+                'shortcut' : shortcut,
+                'type' : uge_type,
+                'relop' : relop,
+                'requestable' : requestable,
+                'consumable' : consumable,
+                'default' : default,
+                'urgency' : urgency,
                 'aapre' : aapre
             }
         return object_data

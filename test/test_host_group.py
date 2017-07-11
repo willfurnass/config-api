@@ -1,24 +1,23 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
-import types
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
 from nose import SkipTest
 
 from utils import needs_uge
@@ -101,7 +100,7 @@ def test_modify_hgrp():
     hgrpl = API.list_hgrps()
     if len(hgrpl):
         hgrp = API.get_hgrp(hgrpl[0])
-        original_host_list = hgrp.data['hostlist'] 
+        original_host_list = hgrp.data['hostlist']
         hgrp2 = API.modify_hgrp(name=hgrpl[0], data={'hostlist' : HOST_NAME})
         assert(hgrp2.data['hostlist'].count(HOST_NAME) == 1)
         hgrp3 = API.modify_hgrp(name=hgrpl[0], data={'hostlist' : original_host_list})

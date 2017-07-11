@@ -1,23 +1,23 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
 import re
 import types
 from uge.log.log_manager import LogManager
@@ -56,7 +56,7 @@ class ListBasedObjectManager(object):
         name_list2 = []
         for name in name_list:
             trimmed_name = name.strip()
-            if len(trimmed_name): 
+            if len(trimmed_name):
                 name_list2.append(trimmed_name)
         return ','.join(name_list2)
 
@@ -81,7 +81,7 @@ class ListBasedObjectManager(object):
         except ObjectNotFound, ex:
             name_list = QconfNameList(metadata={'description' : 'List of %s names' % (self.OBJECT_NAME)}, data=[])
         return name_list
-        
+
 #############################################################################
 # Testing.
 if __name__ == '__main__':

@@ -1,24 +1,23 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
-import types
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
 import random
 from utils import needs_uge
 from utils import generate_random_string
@@ -50,8 +49,8 @@ def test_stree_setup():
 
 def test_generate_stree():
     stree = API.generate_stree(data=[
-        {'id' : 0, 'name' : 'Root', 'type' : 0, 'shares' : 1, 'childnodes' : '1,2'}, 
-        {'id' : 1, 'name' : PRJ1_NAME, 'shares' : PRJ1_SHARES}, 
+        {'id' : 0, 'name' : 'Root', 'type' : 0, 'shares' : 1, 'childnodes' : '1,2'},
+        {'id' : 1, 'name' : PRJ1_NAME, 'shares' : PRJ1_SHARES},
         {'id' : 2, 'name' : PRJ2_NAME, 'shares' : PRJ2_SHARES}])
     assert(len(stree.data) == 3)
     assert(stree.data[1]['shares'] == PRJ1_SHARES)
@@ -59,8 +58,8 @@ def test_generate_stree():
 
 def test_add_stree():
     stree = API.add_stree(data=[
-        {'id' : 0, 'name' : 'Root', 'type' : 0, 'shares' : 1, 'childnodes' : '1,2'}, 
-        {'id' : 1, 'name' : PRJ1_NAME, 'shares' : PRJ1_SHARES}, 
+        {'id' : 0, 'name' : 'Root', 'type' : 0, 'shares' : 1, 'childnodes' : '1,2'},
+        {'id' : 1, 'name' : PRJ1_NAME, 'shares' : PRJ1_SHARES},
         {'id' : 2, 'name' : PRJ2_NAME, 'shares' : PRJ2_SHARES}])
     assert(len(stree.data) == 3)
     assert(stree.data[0]['id'] == 0)
@@ -134,8 +133,8 @@ def test_delete_stree():
 
 def test_modify_or_add_stree():
     stree = API.modify_or_add_stree(data=[
-        {'id' : 0, 'name' : 'Root', 'type' : 0, 'shares' : 1, 'childnodes' : '1,2'}, 
-        {'id' : 1, 'name' : PRJ1_NAME, 'shares' : PRJ1_SHARES}, 
+        {'id' : 0, 'name' : 'Root', 'type' : 0, 'shares' : 1, 'childnodes' : '1,2'},
+        {'id' : 1, 'name' : PRJ1_NAME, 'shares' : PRJ1_SHARES},
         {'id' : 2, 'name' : PRJ2_NAME, 'shares' : PRJ2_SHARES}])
     assert(len(stree.data) == 3)
     assert(stree.data[0]['id'] == 0)
