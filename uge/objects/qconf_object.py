@@ -1,26 +1,26 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
 import os
 import tempfile
-import types
+from six import integer_types
 import json
 import copy
 import datetime
@@ -53,8 +53,8 @@ class QconfObject(object):
     OPTIONAL_KEYS_ALLOWED = False
 
     def __init__(self, name=None, data=None, metadata=None, json_string=None):
-        """ 
-        Class constructor. 
+        """
+        Class constructor.
 
         :param name: Object name. If provided, it will override object's name from data or JSON string parameters.
         :type name: str
@@ -91,7 +91,7 @@ class QconfObject(object):
         # Merge json entries with provided data
         if data:
             self.check_input_data(data)
-            if type(data) == types.DictType:
+            if isinstance(data, dict):
                 self.data.update(data)
             else:
                 self.data = data
@@ -106,7 +106,7 @@ class QconfObject(object):
         # Add standard metadata
         self.metadata['object_version'] = self.VERSION
         self.metadata['object_class'] = self.__class__.__name__
- 
+
     def unpack_input_json(self, json_string):
         if not json_string:
             return None
@@ -114,17 +114,17 @@ class QconfObject(object):
             json_dict = json.loads(json_string)
         except Exception, ex:
             raise InvalidArgument('Input is not a valid json string: %s (error: %s).' % (str(json_string), ex))
-        if type(json_dict) != types.DictType:
+        if not isinstance(json_dict, dict):
             raise InvalidArgument('Input json string does not contain dictionary: %s.' % str(json_string))
         return json_dict
 
     def check_user_provided_keys(self):
-        """ 
+        """
         Checks for presence of all data keys that must be provided by user.
 
         :raises: **InvalidRequest** - in case object's data is not a dictionary, or if any of the required keys are missing.
         """
-        if type(self.data) != types.DictType:
+        if not isinstance(self.data, dict):
             raise InvalidRequest('Data object is not a dictionary: %s.' % str(self.data))
 
         for key in self.USER_PROVIDED_KEYS:
@@ -136,19 +136,19 @@ class QconfObject(object):
 
     def check_input_metadata(self, metadata):
         if metadata:
-            if type(metadata) != types.DictType:
+            if not isinstance(metadata, dict):
                 raise InvalidArgument('Provided metadata is not a dictionary: %s.' % str(metadata))
 
     def remove_optional_keys(self):
-        """ 
-        Removes values for keys that are not required from object's data. 
+        """
+        Removes values for keys that are not required from object's data.
 
         :raises: **InvalidRequest** - in case object's data is not a dictionary.
         """
         if self.OPTIONAL_KEYS_ALLOWED:
             return
 
-        if type(self.data) != types.DictType:
+        if not isinstance(self.data, dict):
             raise InvalidRequest('Data object is not a dictionary: %s.' % str(self.data))
 
         removed_keys = []
@@ -160,12 +160,12 @@ class QconfObject(object):
             del self.data[key]
 
     def update_with_required_data_defaults(self):
-        """ 
+        """
         Updates object with default values for required data keys.
 
         :raises: **InvalidArgument** - in case object's data is not a dictionary.
         """
-        if type(self.data) != types.DictType:
+        if isinstance(self.data, dict):
             raise InvalidRequest('Data object is not a dictionary: %s.' % str(self.data))
         for (key,value) in self.get_required_data_defaults().items():
             if not self.data.has_key(key):
@@ -190,7 +190,7 @@ class QconfObject(object):
                 if type(value) == types.StringType:
                     delimiter = self.LIST_KEY_MAP.get(key, self.DEFAULT_LIST_DELIMITER)
                     self.data[key] = value.split(delimiter)
-                elif type(value) != types.ListType:
+                elif not isinstance(value, list):
                     raise InvalidArgument('Value for key %s must be provided either as a string, or as a python list of strings.' % key)
 
     def parse_value_as_dict(self, key, value):
@@ -212,7 +212,7 @@ class QconfObject(object):
             if value is not None:
                 if type(value) == types.StringType:
                     self.data[key] = self.parse_value_as_dict(key, value)
-                elif type(value) != types.DictType:
+                elif not isinstance(value, dict):
                     raise InvalidArgument('Value for key %s must be provided either as a string, or as a python dictionary.' % key)
 
     def set_data_dict_from_qconf_output(self, qconf_output):
@@ -230,40 +230,40 @@ class QconfObject(object):
     @classmethod
     def get_bool_key_map(cls, key_map):
         bool_key_map = {}
-        for (key,value) in key_map.items():
-            if type(value) == types.BooleanType:
+        for (key, value) in key_map.items():
+            if isinstance(value, bool):
                 bool_key_map[key] = value
-            elif type(value) == types.DictType:
-                for (key2,value2) in value.items():
-                    if type(value2) == types.BooleanType:
+            elif isinstance(value, dict):
+                for (key2, value2) in value.items():
+                    if isinstance(value2, bool):
                         bool_key_map[key2] = value2
         return bool_key_map
 
     @classmethod
     def get_int_key_map(cls, key_map):
         int_key_map = {}
-        for (key,value) in key_map.items():
-            if type(value) == types.IntType:
+        for (key, value) in key_map.items():
+            if isinstance(value, integer_types):
                 int_key_map[key] = value
-            elif type(value) == types.DictType:
-                for (key2,value2) in value.items():
-                    if type(value2) == types.IntType:
+            elif isinstance(value, dict):
+                for (key2, value2) in value.items():
+                    if isinstance(value2, integer_types):
                         int_key_map[key2] = value2
         return int_key_map
 
     @classmethod
     def get_float_key_map(cls, key_map):
         float_key_map = {}
-        for (key,value) in key_map.items():
-            if type(value) == types.FloatType:
+        for (key, value) in key_map.items():
+            if isinstance(value, float):
                 float_key_map[key] = value
         return float_key_map
 
     @classmethod
     def get_list_key_map(cls, key_map):
         list_key_map = {}
-        for (key,value) in key_map.items():
-            if type(value) == types.ListType:
+        for (key, value) in key_map.items():
+            if isinstance(value, list):
                 list_key_map[key] = value
         return list_key_map
 
@@ -306,10 +306,10 @@ class QconfObject(object):
                 if self.UGE_CASE_SENSITIVE_KEYS.has_key(key):
                     return self.UGE_CASE_SENSITIVE_KEYS[key](uge_value)
                 return uge_value
-        if type(value) == types.ListType:
+        if isinstance(value, list):
             delimiter = self.LIST_KEY_MAP.get(key, self.DEFAULT_LIST_DELIMITER)
             return delimiter.join(value)
-        elif type(value) == types.DictType:
+        elif isinstance(value, dict):
             delimiter = self.DICT_KEY_MAP.get(key, self.DEFAULT_DICT_DELIMITER)
             dict_tokens = []
             for (item_key,item_value) in value.items():
@@ -318,25 +318,25 @@ class QconfObject(object):
         return value
 
     def to_uge(self):
-        """ 
+        """
         Converts object to string acceptable as input for UGE qconf command.
 
         :returns: Object's UGE-formatted string.
         """
-        lines = '' 
+        lines = ''
         for (key, value) in self.data.items():
             lines += '%s %s\n' % (key, self.py_to_uge(key, value))
         return lines
- 
+
     def convert_data_to_uge_keywords(self, data):
         for (key, value) in data.items():
             data[key] = self.py_to_uge(key, value)
- 
+
     def to_json(self, use_uge_keywords=False):
-        """ 
+        """
         Converts object to JSON string.
 
-        :param use_uge_keywords: if True, UGE keywords (e.g. 'NONE') are restored before conversion to JSON; otherwise, no changes are made to object's data. Default is False. 
+        :param use_uge_keywords: if True, UGE keywords (e.g. 'NONE') are restored before conversion to JSON; otherwise, no changes are made to object's data. Default is False.
         :type mode: bool
 
         :returns: Object's JSON representation.
@@ -347,7 +347,7 @@ class QconfObject(object):
             self.convert_data_to_uge_keywords(data)
         json_dict['data'] = data
         return json.dumps(json_dict)
- 
+
     def to_dict(self, input_string):
         lines = input_string.split('\n')
         object_data = {}
@@ -361,7 +361,7 @@ class QconfObject(object):
         return object_data
 
     def set_get_metadata(self):
-        """ 
+        """
         Sets default object metadata (user/timestamp) for API get operations.
         """
         cm = ConfigManager.get_instance()
@@ -370,7 +370,7 @@ class QconfObject(object):
         self.metadata['retrieved_on'] = datetime.datetime.now().isoformat()
 
     def set_modify_metadata(self):
-        """ 
+        """
         Sets default object metadata (user/timestamp) for API modify operations.
         """
         cm = ConfigManager.get_instance()
@@ -379,7 +379,7 @@ class QconfObject(object):
         self.metadata['modified_on'] = datetime.datetime.now().isoformat()
 
     def set_add_metadata(self):
-        """ 
+        """
         Sets default object metadata (user/timestamp) for API add operations.
         """
         cm = ConfigManager.get_instance()

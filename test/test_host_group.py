@@ -92,7 +92,7 @@ def test_generate_hgrp_from_json():
     for key in hgrp.data.keys():
         v = hgrp.data[key]
         v2 = hgrp2.data[key]
-        if type(v) == types.ListType:
+        if isinstance(v, list):
             assert(len(v) == len(v2))
             for s in v:
                 assert(v2.count(s) == 1)

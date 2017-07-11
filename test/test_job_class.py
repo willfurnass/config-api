@@ -1,24 +1,23 @@
 #!/usr/bin/env python
-# 
-#___INFO__MARK_BEGIN__ 
-########################################################################## 
+#
+#___INFO__MARK_BEGIN__
+##########################################################################
 # Copyright 2016,2017 Univa Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0 
-# 
-# Unless required by applicable law or agreed to in writing, software 
-# distributed under the License is distributed on an "AS IS" BASIS, 
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-# See the License for the specific language governing permissions and 
-# limitations under the License. 
-########################################################################### 
-#___INFO__MARK_END__ 
-# 
-import types
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###########################################################################
+#___INFO__MARK_END__
+#
 from utils import needs_uge
 from utils import generate_random_string
 from utils import create_config_file
@@ -80,11 +79,11 @@ def test_generate_jc_from_json():
     for key in jc.data.keys():
         v = jc.data[key]
         v2 = jc2.data[key]
-        if type(v) == types.ListType:
+        if isinstance(v, list):
             assert(len(v) == len(v2))
             for s in v:
                 assert(v2.count(s) == 1)
-        elif type(v) == types.DictType:
+        elif isinstance(v, dict):
             for key in v.keys():
                 assert(str(v[key]) == str(v2[key]))
         else:
@@ -93,7 +92,7 @@ def test_generate_jc_from_json():
 def test_modify_jc():
     jc = API.get_jc(JC_NAME)
     jc = API.modify_jc(name=JC_NAME, data={'CMDNAME' : '/bin/ls'})
-    shell = jc.data['CMDNAME'] 
+    shell = jc.data['CMDNAME']
     assert(shell == '/bin/ls')
 
 def test_delete_jc():

@@ -87,12 +87,12 @@ def test_generate_stree_from_json():
     for i in range(0,len(stree.data)):
         v = stree.data[i]
         v2 = stree2.data[i]
-        assert(type(v) == types.DictType)
-        assert(type(v2) == types.DictType)
+        assert(isinstance(v, dict))
+        assert(isinstance(v2, dict))
         for key in v.keys():
             x = v[key]
             x2 = v2[key]
-            if type(x) == types.ListType:
+            if isinstance(x, list):
                 assert(len(x) == len(x2))
                 for y in x:
                     assert(x2.count(y) == 1)

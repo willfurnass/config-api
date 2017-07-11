@@ -49,11 +49,11 @@ def test_generate_cconf_from_json():
     for key in cconf.data.keys():
         v = cconf.data[key]
         v2 = cconf2.data[key]
-        if type(v) == types.ListType:
+        if isinstance(v, list):
             assert(len(v) == len(v2))
             for s in v:
                 assert(v2.count(s) == 1)
-        elif type(v) == types.DictType:
+        elif isinstance(v, dict):
             for key in v.keys():
                 assert(str(v[key]) == str(v2[key]))
         else:

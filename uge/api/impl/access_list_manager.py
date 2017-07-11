@@ -18,7 +18,6 @@
 #___INFO__MARK_END__
 
 import re
-import types
 from uge.exceptions.object_not_found import ObjectNotFound
 from uge.exceptions.object_already_exists import ObjectAlreadyExists
 from uge.exceptions.invalid_request import InvalidRequest
@@ -53,13 +52,13 @@ class AccessListManager(DictBasedObjectManager):
     def delete_object(self, name):
         deleted_object = self.get_object(name)
         self.qconf_executor.execute_qconf('-dul %s' % (name), self.QCONF_ERROR_REGEX_LIST)
-       
+
     def __check_and_prepare_input(self, input_value, input_arg_name):
         if type(input_value) == types.StringType:
             if input_value.find(' ') >= 0:
                 raise InvalidArgument('Value for argument %s must be provided either as a comma-separated string list, or as a python list of strings.' % input_arg_name)
             return input_value
-        elif type(input_value) == types.ListType:
+        elif isinstance(input_value, list):
             input_value = ','.join(input_value)
             return input_value
         else:
@@ -74,7 +73,7 @@ class AccessListManager(DictBasedObjectManager):
             acl = self.get_object(acl_name)
             acl_list.append(acl)
         return acl_list
-     
+
     def delete_users_from_acls(self, user_names, access_list_names):
         user_name_list = self.__check_and_prepare_input(user_names, 'user_names')
         acl_name_list = self.__check_and_prepare_input(access_list_names, 'access_list_names')

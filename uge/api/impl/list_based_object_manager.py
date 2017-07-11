@@ -49,7 +49,7 @@ class ListBasedObjectManager(object):
                 name_list = names.split(',')
             else:
                 name_list = names.split()
-        elif type(names) == types.ListType:
+        elif isinstance(names, list):
                 name_list = names
         else:
             raise InvalidArgument('Names must be provided either as a list, or as a string containing names separated by space or comma.')

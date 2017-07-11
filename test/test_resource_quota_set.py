@@ -76,11 +76,11 @@ def test_generate_rqs_from_json():
     for key in rqs.data.keys():
         v = rqs.data[key]
         v2 = rqs2.data[key]
-        if type(v) == types.ListType:
+        if isinstance(v, list):
             assert(len(v) == len(v2))
             for s in v:
                 assert(v2.count(s) == 1)
-        elif type(v) == types.DictType:
+        elif isinstance(v, dict):
             for key in v.keys():
                 assert(str(v[key]) == str(v2[key]))
         else:

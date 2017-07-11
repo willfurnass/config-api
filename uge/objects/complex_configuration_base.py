@@ -132,7 +132,7 @@ class ComplexConfigurationBase(QconfObject):
     def check_attribute_data(self, name, data):
         if not name:
             raise InvalidArgument('Invalid complex attribute name.')
-        if type(data) != types.DictType:
+        if not isinstance(data, dict):
             raise InvalidArgument('Complex attribute data must be a dictionary.')
         for key in ['shortcut', 'type', 'relop', 'requestable', 'consumable', 'default', 'urgency', 'aapre'] :
             if not data.has_key(key):
